@@ -1,11 +1,11 @@
 import { List } from './ConctactsList.styled';
 import { useSelector } from 'react-redux';
 import { ContactListItem } from 'components/ContactListItem/ContactListItem';
-import { getContacts, getFilter } from 'redux/selectors';
+import { getFilter } from 'redux/selectors';
 import { useFetchContactsQuery } from 'redux/contactsSlice';
 
 export const ContactList = () => {
-  const { data: contacts, isFetching } = useFetchContactsQuery();
+  const { data: contacts } = useFetchContactsQuery();
   const filter = useSelector(getFilter);
 
   const filteredContacts = () => {

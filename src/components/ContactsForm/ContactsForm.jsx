@@ -1,13 +1,11 @@
 import { ContactsForm, Label, Input, Button } from './ContactsForm.styled';
 import {
-  addContact,
   useCreateContactMutation,
   useFetchContactsQuery,
 } from 'redux/contactsSlice';
 
 export const ContactForm = () => {
-  const [createContact, { isUninitialized: isAdding }] =
-    useCreateContactMutation();
+  const [createContact] = useCreateContactMutation();
   const { data: contacts } = useFetchContactsQuery();
 
   const handleSubmit = event => {

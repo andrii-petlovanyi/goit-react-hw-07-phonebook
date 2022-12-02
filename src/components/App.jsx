@@ -1,5 +1,3 @@
-import { useSelector } from 'react-redux';
-
 import { Box } from './Box';
 import { ContactForm } from './ContactsForm/ContactsForm';
 import { FilterContacts } from './Filter/Filter';
@@ -8,7 +6,7 @@ import { theme } from './Theme';
 import { useFetchContactsQuery } from 'redux/contactsSlice';
 
 export const App = () => {
-  const { data: contacts, isFetching } = useFetchContactsQuery();
+  const { data: contacts } = useFetchContactsQuery();
 
   return (
     <Box

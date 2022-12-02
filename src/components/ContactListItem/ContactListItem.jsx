@@ -4,7 +4,7 @@ import { ListItem, ListItemText, BtnDel } from './ContactListItem.styled';
 
 export const ContactListItem = ({ contact = {} }) => {
   const { id, name, phone } = contact;
-  const [deleteContact, { isLoading: isDeleting }] = useDeleteContactMutation();
+  const [deleteContact] = useDeleteContactMutation();
   return (
     <ListItem id={id}>
       <ListItemText>
