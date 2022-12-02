@@ -4,9 +4,10 @@ import { FilterContacts } from './Filter/Filter';
 import { ContactList } from './ContactsList/ContactsList';
 import { theme } from './Theme';
 import { useFetchContactsQuery } from 'redux/contactsSlice';
+import { Loader } from './Loaders/Loader';
 
 export const App = () => {
-  const { data: contacts, isFetching } = useFetchContactsQuery();
+  const { data: contacts, isLoading } = useFetchContactsQuery();
 
   return (
     <Box
@@ -47,17 +48,17 @@ export const App = () => {
         fontFamily={theme.fonts.title}
         justifyContent="center"
       >
-        {isFetching ? (
+        {isLoading ? (
           <>Contacts</>
         ) : (
           <>{contacts?.length > 0 ? 'Contacts' : 'No contacts'}</>
         )}
       </Box>
 
-      {isFetching ? (
+      {isLoading ? (
         <>
           <FilterContacts />
-          <p>loading...</p>
+          <Loader />
         </>
       ) : (
         <>{contacts?.length > 0 && <FilterContacts />}</>

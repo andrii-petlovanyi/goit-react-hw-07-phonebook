@@ -23,7 +23,6 @@ export const ContactListItem = ({ contact = {} }) => {
               deleteContact(id);
             }}
           ></BtnDel>
-          {/* <DelLoader /> */}
         </>
       )}
     </ListItem>
