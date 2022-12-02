@@ -33,3 +33,5 @@ export const BtnDel = styled.button`
     border: ${p => p.theme.borders.normal} white;
   }
 `;
+
+

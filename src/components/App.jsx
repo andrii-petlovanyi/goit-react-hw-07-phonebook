@@ -6,7 +6,7 @@ import { theme } from './Theme';
 import { useFetchContactsQuery } from 'redux/contactsSlice';
 
 export const App = () => {
-  const { data: contacts } = useFetchContactsQuery();
+  const { data: contacts, isFetching } = useFetchContactsQuery();
 
   return (
     <Box
@@ -47,10 +47,21 @@ export const App = () => {
         fontFamily={theme.fonts.title}
         justifyContent="center"
       >
-        {contacts?.length > 0 ? 'Contacts' : 'No contacts'}
+        {isFetching ? (
+          <>Contacts</>
+        ) : (
+          <>{contacts?.length > 0 ? 'Contacts' : 'No contacts'}</>
+        )}
       </Box>
 
-      {contacts?.length > 1 && <FilterContacts />}
+      {isFetching ? (
+        <>
+          <FilterContacts />
+          <p>loading...</p>
+        </>
+      ) : (
+        <>{contacts?.length > 0 && <FilterContacts />}</>
+      )}
       <ContactList />
     </Box>
   );
