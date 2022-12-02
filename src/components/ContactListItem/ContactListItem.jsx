@@ -1,20 +1,19 @@
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
-import { deleteContact } from 'redux/contactsSlice';
+import { useDeleteContactMutation } from 'redux/contactsSlice';
 import { ListItem, ListItemText, BtnDel } from './ContactListItem.styled';
 
 export const ContactListItem = ({ contact = {} }) => {
-  const { id, name, number } = contact;
-  const dispatch = useDispatch();
+  const { id, name, phone } = contact;
+  const [deleteContact, { isLoading: isDeleting }] = useDeleteContactMutation();
   return (
     <ListItem id={id}>
       <ListItemText>
-        <b>{name}</b> : {number}
+        <b>{name}</b> : {phone}
       </ListItemText>
       <BtnDel
         type="button"
         onClick={() => {
-          dispatch(deleteContact(id));
+          deleteContact(id);
         }}
       ></BtnDel>
     </ListItem>
@@ -25,6 +24,6 @@ ContactListItem.propTypes = {
   contact: PropTypes.shape({
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    number: PropTypes.string.isRequired,
+    phone: PropTypes.string.isRequired,
   }).isRequired,
 };

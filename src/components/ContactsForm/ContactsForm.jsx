@@ -1,11 +1,14 @@
-import { useDispatch, useSelector } from 'react-redux';
 import { ContactsForm, Label, Input, Button } from './ContactsForm.styled';
-import { getContacts } from 'redux/selectors';
-import { addContact } from 'redux/contactsSlice';
+import {
+  addContact,
+  useCreateContactMutation,
+  useFetchContactsQuery,
+} from 'redux/contactsSlice';
 
 export const ContactForm = () => {
-  const dispatch = useDispatch();
-  const checkContacts = useSelector(getContacts);
+  const [createContact, { isUninitialized: isAdding }] =
+    useCreateContactMutation();
+  const { data: contacts } = useFetchContactsQuery();
 
   const handleSubmit = event => {
     event.preventDefault();
@@ -13,13 +16,11 @@ export const ContactForm = () => {
     const formName = event.target.elements.name.value;
     const formNumber = event.target.elements.number.value;
     if (
-      checkContacts.find(
-        cont => cont.name.toLowerCase() === formName.toLowerCase()
-      )
+      contacts.find(cont => cont.name.toLowerCase() === formName.toLowerCase())
     ) {
       return alert(`${formName} is already in contacts`);
     }
-    dispatch(addContact(formName, formNumber));
+    createContact({ formName, formNumber });
     form.reset();
   };
 

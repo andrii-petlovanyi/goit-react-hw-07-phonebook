@@ -1,35 +1,39 @@
-import { createSlice, nanoid } from '@reduxjs/toolkit';
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-const initialContacts = [
-  { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-  { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-  { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-  { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-];
-
-export const contactsSlice = createSlice({
-  name: 'contacts',
-  initialState: initialContacts,
-  reducers: {
-    addContact: {
-      reducer(state, action) {
-        state.push(action.payload);
-      },
-      prepare(name, number) {
-        return {
-          payload: {
-            id: nanoid(),
-            name,
-            number,
-          },
-        };
-      },
-    },
-    deleteContact(state, action) {
-      return state.filter(contact => contact.id !== action.payload);
-    },
-  },
+export const contactsApi = createApi({
+  reducerPath: 'contactsApi',
+  baseQuery: fetchBaseQuery({
+    baseUrl: 'https://6389cd88c5356b25a2092081.mockapi.io/api/',
+  }),
+  tagTypes: ['Contacts'],
+  endpoints: builder => ({
+    fetchContacts: builder.query({
+      query: () => '/contacts',
+      providesTags: ['Contacts'],
+    }),
+    deleteContact: builder.mutation({
+      query: contactID => ({
+        url: `/contacts/${contactID}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Contacts'],
+    }),
+    createContact: builder.mutation({
+      query: ({ formName, formNumber }) => ({
+        url: '/contacts',
+        method: 'POST',
+        body: {
+          name: formName,
+          phone: formNumber,
+        },
+      }),
+      invalidatesTags: ['Contacts'],
+    }),
+  }),
 });
 
-export const { addContact, deleteContact } = contactsSlice.actions;
-export const contactReducer = contactsSlice.reducer;
+export const {
+  useFetchContactsQuery,
+  useDeleteContactMutation,
+  useCreateContactMutation,
+} = contactsApi;

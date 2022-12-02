@@ -5,10 +5,10 @@ import { ContactForm } from './ContactsForm/ContactsForm';
 import { FilterContacts } from './Filter/Filter';
 import { ContactList } from './ContactsList/ContactsList';
 import { theme } from './Theme';
-import { getContacts } from 'redux/selectors';
+import { useFetchContactsQuery } from 'redux/contactsSlice';
 
 export const App = () => {
-  const contacts = useSelector(getContacts);
+  const { data: contacts, isFetching } = useFetchContactsQuery();
 
   return (
     <Box
@@ -49,10 +49,10 @@ export const App = () => {
         fontFamily={theme.fonts.title}
         justifyContent="center"
       >
-        {contacts.length > 0 ? 'Contacts' : 'No contacts'}
+        {contacts?.length > 0 ? 'Contacts' : 'No contacts'}
       </Box>
 
-      {contacts.length > 1 && <FilterContacts />}
+      {contacts?.length > 1 && <FilterContacts />}
       <ContactList />
     </Box>
   );
